@@ -76,37 +76,62 @@ class History:
     def is_win(self):
         # check if the board position is a win for either players
         # Feel free to implement this in anyway if needed
-        pass
+        board = self.get_board()
+        wins = [(0, 1, 2), (3, 4, 5), (6, 7, 8), (0, 3, 6), (1, 4, 7), (2, 5, 8), (0, 4, 8), (2, 4, 6)]
+        for a,b,c in wins:
+            if board[a]==board[b]==board[c]:
+                if board[a]=='x':
+                    return 0
+                elif board[a]=='o':
+                    return 1
+        return None
+
 
     def is_draw(self):
         # check if the board position is a draw
         # Feel free to implement this in anyway if needed
-        pass
+        board = self.get_board()
+        for i in range(9):
+            if board[i] == '0':
+                return False
+        return True
 
     def get_valid_actions(self):
         # get the empty squares from the board
         # Feel free to implement this in anyway if needed
-        pass
+        return [x for x in range(len(self.board)) if self.board[x]=='0']
 
     def is_terminal_history(self):
         # check if the history is a terminal history
         # Feel free to implement this in anyway if needed
-        pass
+        if (self.is_draw() or (self.is_win() is not None)):
+            return True
+        return False
 
     def get_utility_given_terminal_history(self):
         # Feel free to implement this in anyway if needed
-        pass
+        if self.is_draw():
+            return 0
+        if self.is_win() is not None:
+            if self.is_win()==0:
+                return 1
+            else:
+                return -1
+        return None
 
     def update_history(self, action):
         # In case you need to create a deepcopy and update the history obj to get the next history object.
         # Feel free to implement this in anyway if needed
-        pass
-
+        self.history.append(action)
+        self.board[action] = self.current_player()
+    def rev_history(self):
+        action = self.history.pop()
+        self.board[action] = '0'
 
 def backward_induction(history_obj):
     """
     :param history_obj: Histroy class object
-    :return: best achievable utility (float) for th current history_obj
+    :return: best achievable utility (float) for the current history_obj
     """
     global strategy_dict_x, strategy_dict_o
     # TODO implement
@@ -122,8 +147,38 @@ def backward_induction(history_obj):
     # actions. But since tictactoe is a PIEFG, there always exists an optimal deterministic strategy (SPNE). So your
     # policy will be something like this {"0": 1, "1": 0, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0, "7": 0, "8": 0} where
     # "0" was the one of the best actions for the current player/history.
+    if history_obj.is_draw():
+        return 0
+    if history_obj.is_win() is not None:
+        if history_obj.is_win()==0:
+            return 1
+        else:
+            return -1
+    if history_obj.current_player()=='x':
+        bestUtil = -math.inf
+        best_action = None
+        for action in history_obj.get_valid_actions():
+            history_obj.update_history(action)
+            util_child = backward_induction(history_obj)
+            if util_child>bestUtil:
+                bestUtil = util_child
+                best_action = action
+            history_obj.rev_history()
+        strategy_dict_x["".join(map(str,history_obj.history))] = {i: 1 if i == (best_action) else 0 for i in range(9)}
+        return bestUtil
+    elif history_obj.current_player()=='o':
+        bestUtil = math.inf
+        best_action = None
+        for action in history_obj.get_valid_actions():
+            history_obj.update_history(action)
+            util_child = backward_induction(history_obj)
+            if util_child<bestUtil:
+                bestUtil = util_child
+                best_action = action
+            history_obj.rev_history()
+        strategy_dict_o["".join(map(str,history_obj.history))] = {i: 1 if i == (best_action) else 0 for i in range(9)}
+        return bestUtil
     return -2
-    # TODO implement
 
 
 def solve_tictactoe():

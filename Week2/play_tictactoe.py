@@ -1,7 +1,9 @@
-import pygame
+import pygame # type: ignore
 import random
 import json
 import argparse
+import os
+os.environ['SDL_AUDIODRIVER'] = 'dummy'
 
 
 def draw_cross(x_pos, y_pos, s):
@@ -276,7 +278,7 @@ BOARD_COLOR = "black"
 P1_COLOR = "red"
 P2_COLOR = "blue"
 BG_COLOR = "white"
-arial_font = pygame.font.SysFont('arialunicode', 36)
+arial_font = pygame.font.SysFont(None, 36)
 
 board = ['0', '0', '0', '0', '0', '0', '0', '0', '0']
 game_history = []
