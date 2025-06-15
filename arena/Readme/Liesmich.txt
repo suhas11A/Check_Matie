@@ -1,0 +1,68 @@
+Schachoberfläche Arena für Linux
+--------------------------------
+
+http://www.playwitharena.com
+
+Versionshistorie:
+----------------------------
+
+Arena 3.9beta für Linux, 2019-12-28
+  * GUI kann nun auch Syzygy Tablebases verwenden (bis zu 7 Steinen)
+   * Bitte beachten sie, dass Syzygy Tablebases die Werte als "Distanz zum Nullen des 50-Züge-Zählers" anzeigt, nicht als "Distanz zum Matt" wie Gaviota. 
+  * Tablebases Handling verbessert: Syzygy, Gaviota und Scorpio Tablebases haben nun auch gemeinsame Optionen (wie Nalimov), so dass Sie diese nicht für jeden Motor einzeln einstellen müssen
+  * Dialoge ein bisschen größer für Linuxe die etwas mehr Platz für einige Dialogelemente benötigen
+  * Export oder Speichern von markierten PGN-Partien fügt nun Leerzeilen ein, wenn nötig (manchmal war das nicht der Fall)
+  * Buchimport schneller und schließt temp. die PGN-Liste um schneller zu sein
+  * Benutze nun überall das Tausendertrennzeichen des Betriebssystems (z.B.: ,.' oder anderes)
+  * Kleinere Vereserungen: Tab-Reihenfolge in Dialogen, vermeide Immer-Oben-Fenster
+  * Ordo aktualisiert zu 1.2.6
+  * Große Symbole für die Werkzeugleiste und anderer Symbolsatz verfügbar
+  * Zuletzt verwendete Motoren nun direkt auswählbar im Menü
+  * Hilfe verbessert
+  * Zugliste schneller und verbesserte Darstellung
+  * Unter der Zugliste 4 kleine Schaltflächen eingefügt, mit denen man Bewertungen, Kommentare, Hauptvarianten und Buchnamen ein- und ausblenden kann
+  * Menüpunkte zur Auswahl der Anzahl der vom Motor verwendeten Kerne im Hauptmenü hinzugefügt inkl. Tastenkürzel.
+  * Befehle [%clk, [%eval und [%emt in PGN-Dateien lesend unterstützt
+  * Geschwindigkeit der Pfeile verbesserrt, schraffierte Markierungen verbessert, Pfeiltransparenz nun änderbar
+  * Filter Stellung: mehrere Figuren auf einem Feld funktioniert nun, war vorher defekt
+  * Tablebase Zugliste nun immer korrekt ausgerichtet
+  * Weiter verbesserte Unterstützung von dunklen Themen des Betriebssystems
+  * Temp-Registerkarte sieht nun besser aus
+  * Variantenbrett: Mausrad unterstützt für Züge-Navigation
+  * Zeichencodierungsprobleme mit Sonderzeichen in manchen PGN-Partien gelöst
+  * Kompatibler Grafikmodus für die Figuren für nicht voll funktionsfähige Grafiktreiber (so dass wir die Figuren sehen, z.B. Raspbian auf Raspi 4)
+  * Viele Bugfixes und kleinere Verbesserungen
+
+TODOs (aktuell noch fehlend) für die nächste (nicht-Beta) Version (darum wird diese Version auch als Beta bezeichnet):
+  * Testen von Turnieren und DGT notwendig
+  * ARM 32 bit kann nun auch Gaviota Tablebases lesen
+  * ARM 64 bit Version hinzugefügt
+  * Weitere Motoren für ARM-Versionen hinzugefügt
+  * Hilfe verbessert
+
+
+Arena 1.1 für Linux, 2017-01-27
+  * Turnierbugs entfernt
+  * Mausrad deaktiviert in Turieren
+  * Turnier im Browser öfffnen funktioniert auch aus dem Turnierdialog heraus
+  * Freier RAM Anzeige jetzt von /proc/meminfo statt von SysInfo
+  * Wertungszahl-Berechnung: "Zusammenfassen" und "Dateien kopieren nach.." funktioniert jetzt
+  * Wertungszahl-Berechnung: Ordo arbeitet jetzt zurätzlich im ELOStat-Modus
+  * Wertungszahl-Berechnung: Sie können jetzt die Wertungszahlen-Ergebnisse in Arena importieren
+  * Doppelkicken auf Tablebase-Züge funktionierte in der deutschen Sprache nicht immer
+  * Viele andere Fehler beseitigt
+  * Bessere Unterstützung von dunklen Themen
+  * Kleinere Verbesserungen in vielen Bereichen
+
+Arena 1.0 für Linux, 2016-11-12
+  * Erstes öffentliches Release der Linux Version
+  * Unterschiede zur Windows Version
+    * Bessere Integration in Ihren Linux-Desktop als die Wine-Version
+    * Kann alle Motoren-Typen ausführen: Linux, und Windows (wenn Wine installiert ist)
+    * Komplett UTF-8
+    * Verwendet Ordo für die Berechnung von Wertungszahlen
+    * Bislang kein Citrine, Autoplayer, ICS oder Drucken verfügbar
+  * Klänge via externen Kommandozeilen-Abspieler (mpg123, music123 oder music321) möglich
+
+Wenn Sie eine Übersetzung erstellen möchten, wenden Sie sich über das 
+Supportformular an das Arena-Team.

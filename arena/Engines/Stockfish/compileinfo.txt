@@ -1,0 +1,15 @@
+Official Versions:
+
+make profile-build ARCH=x86-64-modern
+make profile-build ARCH=x86-64-bmi2
+make profile-build ARCH=x86-64
+
+
+Minimum:
+GLIBC_2.17
+
+
+Arena Version:
+make profile-build ARCH=armv7  ==>  stockfish10-arm-profile
+
+

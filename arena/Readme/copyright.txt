@@ -1,0 +1,81 @@
+Copyright (C) for Arena 3.9beta for Linux
+
+License agreements:
+
+You are allowed to download the program package and install it on as many
+computers as you like free of charge.
+
+Partner engines:
+
+Hermann 2.7.1
+Arminius 2017_01_01 
+Spike 1.2/1.4
+
+However, distribution or offering of Arena Chess GUI and any other parts of this
+distribution on other webpages, newspaper, DVDs, CDs, print and other media is only
+allowed in unmodified form and with the written permission of their respective
+authors. For bundled engines and other software refer to their author's copyrights 
+as stated in the respective folders or websites. 
+
+--------------------------------------------------------------------------------
+Help Viewer License:
+
+{ Copyright (C) <2005> <Andrew Haines> lhelp.lpr
+
+  This source is free software; you can redistribute it and/or modify it under
+  the terms of the GNU General Public License as published by the Free
+  Software Foundation; either version 2 of the License, or (at your option)
+  any later version.
+
+  This code is distributed in the hope that it will be useful, but WITHOUT ANY
+  WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+  FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+  details.
+
+  A copy of the GNU General Public License is available on the World Wide Web
+  at <http://www.gnu.org/copyleft/gpl.html>. You can also obtain it by writing
+  to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
+  MA 02111-1307, USA.
+} 
+
+The source code of the Help Viewer can be found in any Lazarus distribution,
+see http://www.lazarus-ide.org.
+--------------------------------------------------------------------------------
+Gaviota
+
+Engine License
+
+Copyright (C) 2000-2014, Miguel A. Ballicora
+
+This software is provided 'as-is', without any express or implied warranty
+of any kind. In no event or circumstance will the author be held liable 
+for any damages arising from the use of this software. Anyone is permitted
+to use this software, but its distribution is not allowed without the 
+consent of the author. The origin of this software must not be misrepresented
+and you must not claim that you wrote the original software. Modification 
+of the software is not permitted.
+(mails to the gmail account: mballicora@gmail.com)
+
+--------------------------------------------------------------------------------
+Fathom
+
+Fathom is a stand-alone Syzygy based probing tool and API by Basil Falcinelli, introduced in 
+November 2015 along with his Gull 3 release [17]. Unlike the original tbprobe code, Fathom 
+does not necessarily require the callee to provide move generation functionality. The new 
+modifications and extensions to Ronald de Man's original code which can be "redistributed 
+and/or modified without restrictions", are released under the permissive MIT License. 
+The API consists of three functions [18]:
+
+    tb_init initializes the tablebase
+    tb_probe_wdl probes the Win-Draw-Loss (WDL) table for a given position
+    tb_probe_root probes the Distance-To-Zero (DTZ) table for the given position
+
+Fathom was modified by Martin Blume to display distance values (DTZ50), source included.
+
+--------------------------------------------------------------------------------
+Arena team:
+
+Programmer of Arena: Martin Blume
+Organisation: Michael Diosi
+Webmaster of http://www.playwitharena.com: Michael Diosi
+

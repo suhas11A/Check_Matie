@@ -1,0 +1,12 @@
+Verzeichnis für Syzygy-Endspieldatenbanken (Tablebases). Arena hat hier nur die 3-Steiner, um Speicherplatz zu sparen.
+
+Weitere Datenbanken:
+http://kirill-kryukov.com/chess/tablebases-online/
+
+--------------
+
+
+Folder for Syzygy Tablebases. Only 3-men here to limit download file size.
+
+Further tablebases:
+http://kirill-kryukov.com/chess/tablebases-online/

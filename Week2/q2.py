@@ -13,7 +13,7 @@ logging.basicConfig(format='%(levelname)s - %(asctime)s - %(message)s', datefmt=
 board_positions_val_dict = {}
 # Global variable to store the visited histories in the process of alpha beta pruning.
 visited_histories_list = []
-_SORT2 = [4, 13, 0,  2,  6,  8, 9, 11, 15, 17, 1,  3,  5,  7, 10, 12, 14, 16]
+_SORT2 = [4, 13, 22, 0,  2,  6,  8, 9, 11, 15, 17, 18, 20, 24, 26, 1,  3,  5,  7, 10, 12, 14, 16, 19, 21, 23, 25]
 
 class History:
     def __init__(self, num_boards=2, history=None):
@@ -233,13 +233,11 @@ def alpha_beta_pruning(history_obj, alpha, beta, max_player_flag):
     if max_player_flag:
         bestUtil = -math.inf
         actions_list = history_obj.get_valid_actions()
-        nice = True
         for action in actions_list:
             util_child = alpha_beta_pruning(History(history_obj.num_boards, history_obj.history+[action]), alpha, beta, False)
             bestUtil = max(bestUtil, util_child)
             alpha = max(alpha,util_child)
             if beta<=alpha:
-                nice = False
                 break
         if True:
             board_positions_val_dict[history_obj.get_boards_str(a,b)] = bestUtil
@@ -247,13 +245,11 @@ def alpha_beta_pruning(history_obj, alpha, beta, max_player_flag):
     else:
         bestUtil = math.inf
         actions_list = history_obj.get_valid_actions()
-        nice = True
         for action in actions_list:
             util_child = alpha_beta_pruning(History(history_obj.num_boards, history_obj.history+[action]), alpha, beta, True)
             bestUtil = min(bestUtil, util_child)
             beta = min(beta,util_child)
             if beta<=alpha:
-                nice = False
                 break
         if True:
             board_positions_val_dict[history_obj.get_boards_str(a,b)] = bestUtil
@@ -267,7 +263,7 @@ def solve_alpha_beta_pruning(history_obj, alpha, beta, max_player_flag):
 
 if __name__ == "__main__":
     logging.info("alpha beta pruning")
-    value, visited_histories = solve_alpha_beta_pruning(History(history=[], num_boards=2), -math.inf, math.inf, True)
+    value, visited_histories = solve_alpha_beta_pruning(History(history=[], num_boards=3), -math.inf, math.inf, True)
     logging.info("maxmin value {}".format(value))
     print (value)
     logging.info("Number of histories visited {}".format(len(visited_histories)))

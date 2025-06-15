@@ -1,0 +1,27 @@
+Directory for ELOStat and Ordo files.
+
+ELOStat+Ordo output:
+- ordo.dat (only Ordo)
+- cluster.dat (only ELOStat)
+- general.dat
+- programs.dat
+- rating.dat
+will be written to this directory.
+The *.dat files will be overwritten every time ELOStat/Ordo is started.
+
+ELOStat requires Wine in Linux/Mac.
+
+Verzeichnis für ELOStat und Ordo Dateien.
+Die ELOStat Ausgaben:
+- ordo.dat (nur Ordo)
+- cluster.dat (nur ELOStat)
+- general.dat
+- programs.dat
+- rating.dat
+werden in dieses Verzeichnis geschrieben.
+Die *.dat Dateien werden bei jedem Start von ELOStat/Ordo überschrieben.
+
+ELOStat benötigt Wine unter Linux/Mac.
+
+Elostat by Dr. Frank Schubert 
+Ordo by Miguel A. Ballicora
