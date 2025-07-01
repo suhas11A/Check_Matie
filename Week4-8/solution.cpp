@@ -30,8 +30,6 @@ class MoveGen {
 public:
     Board board;
 
-    MoveGen(string fen) : board(Board(fen)){}
-
     float piece_value(PieceType p) {
         switch (p) {
             case static_cast<int>(PieceType::PAWN): return 1.0f;
@@ -108,7 +106,7 @@ public:
         return total;
     }
 
-    float utility(Board board, float wheights[]) {
+    float utility(Board& board, float wheights[]) {
         Movelist moves;
         Movelist fake_moves;
         movegen::legalmoves(moves, board);
@@ -266,6 +264,8 @@ int main(int argc, char* argv[]) {
     // Compile with `g++ -O3`
     // If else copying issue
     // Do Rohans suggestions
+    // Threads
+    // I lose peices just to put check
 
     float a, b, c, d;
     a = stof(argv[1]);
@@ -293,7 +293,7 @@ int main(int argc, char* argv[]) {
             move_start_time = chrono::high_resolution_clock::now();
             float alpha = -my_inf;
             float beta  =  my_inf;
-            MoveGen my_solver(fen);
+            MoveGen my_solver;
             string activeColor;
             if (my_solver.board.sideToMove()==Color::WHITE) activeColor = "w";
             else if (my_solver.board.sideToMove()==Color::BLACK) activeColor = "b";
@@ -335,7 +335,7 @@ int main(int argc, char* argv[]) {
     for(auto [fen,soln]:data.items()){
         float alpha = -my_inf;
         float beta  =  my_inf;
-        MoveGen my_solver(fen);
+        MoveGen my_solver;
         auto my_move = my_solver.alphaBeta(my_solver.board, alpha, beta, depth, my_solver.board.sideToMove(), wheights).first;
         string sub = uci::moveToSan(my_solver.board, my_move);
         if (string(soln).find(sub) == string::npos) {
