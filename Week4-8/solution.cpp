@@ -254,18 +254,10 @@ public:
 
 int main(int argc, char* argv[]) {
     // Still have to fix the repitition problem
-    // It works for whites, what about blacks
-    // Review the caching strategy to avoid incorrect cache hits, and see how possible is it to get hash similarity
-    // See the tuning.txt to tune parameters
-    // See which ones im getting wrong for (Mate in 2,3,4)
-    // Can I inc depth as we go down the tree cuz less time
-    // Memory exeeding badly (now its not but lru can be good for us)
     // Train on end game data base
-    // Compile with `g++ -O3`
-    // If else copying issue
-    // Do Rohans suggestions
     // Threads
     // I lose peices just to put check
+    // Now did iterative deepening - worries : time limit management
 
     float a, b, c, d;
     a = stof(argv[1]);
