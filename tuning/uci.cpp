@@ -273,7 +273,7 @@ int main() {
     Board board;
     string line;
     float weights[4] = WEIGHTS;
-    int depth = 6;
+    int depth = 7;
     MoveGen my_solver;
 
     while (getline(cin, line)) {
