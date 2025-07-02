@@ -181,9 +181,9 @@ public:
         return utility;
     }
 
-    pair<Move, float> alphaBetaHelper(Board& board, float alpha, float beta, int depth, Color player, float wheights[]) {
+    pair<Move, float> alphaBetaHelper(Board& board, float alpha, float beta, int depth, Color player, float wheights[], bool checker) {
         if (stopped) return {Move(), 0.0f};
-        if (!stopped && high_resolution_clock::now() > deadline) {
+        if (!stopped && high_resolution_clock::now() > deadline && checker) {
             stopped = true;
             return {Move(), 0.0f};
         }
@@ -229,7 +229,7 @@ public:
                 if (depth == 1) {
                     val = staticscore;
                 } else {
-                    auto [childMove, child_val] = alphaBetaHelper(board, alpha, beta, depth - 1, Color::BLACK, wheights);
+                    auto [childMove, child_val] = alphaBetaHelper(board, alpha, beta, depth - 1, Color::BLACK, wheights, checker);
                     val = child_val;
                 }
                 
@@ -251,7 +251,7 @@ public:
                 if (depth == 1) {
                     val = staticscore;
                 } else {
-                    auto [childMove, child_val] = alphaBetaHelper(board, alpha, beta, depth - 1, Color::WHITE, wheights);
+                    auto [childMove, child_val] = alphaBetaHelper(board, alpha, beta, depth - 1, Color::WHITE, wheights, checker);
                     val = child_val;
                 }
                 
@@ -276,7 +276,7 @@ public:
 
         // Iterative deepen from 1 to maxDepth
         for (int d = 1; d <= maxDepth; ++d) {
-            auto [candMove, candScore] = alphaBetaHelper(board, alpha, beta, d, player, wheights);
+            auto [candMove, candScore] = alphaBetaHelper(board, alpha, beta, d, player, wheights, (d>7));
             if (isinf(candScore)) {
                 if (player==Color::WHITE && candScore>0) return {candMove, 0.0f };
                 if (player==Color::BLACK && candScore<0) return {candMove, 0.0f };
@@ -306,7 +306,7 @@ int main() {
     Board board;
     string line;
     float weights[4] = WEIGHTS;
-    int maxdepth = 100;
+    int maxdepth = 50;
     MoveGen my_solver;
 
     while (getline(cin, line)) {
@@ -354,28 +354,8 @@ int main() {
                 board.setFen(fen_full);
             }
         } else if (token == "go") {
-            // 1) parse all the UCI time args
-            int wtime = 0, btime = 0, winc = 0, binc = 0, movestogo = 35;
-            std::string arg;
-            while (iss >> arg) {
-                if (arg == "wtime") iss >> wtime;
-                else if (arg == "btime") iss >> btime;
-                else if (arg == "winc") iss >> winc;
-                else if (arg == "binc") iss >> binc;
-                else if (arg == "movestogo") iss >> movestogo;
-            }
-            // 2) decide whose clock and remaining moves
-            bool isWhite = (board.sideToMove() == Color::WHITE);
-            int timeLeftMs = isWhite ? wtime : btime;
-            int  incMs = isWhite ? winc : binc;
-            int  movesDone = board.fullMoveNumber();               // approx full moves so far
-            int  movesRemain = std::max(1, movestogo - movesDone);   // avoid div0
-            // 3) allocate ~90% of timeLeft/movesRemain + increment
-            int64_t allocMs = timeLeftMs / movesRemain + incMs;
-            allocMs = static_cast<int64_t>(allocMs * 0.9);
-            // 4) build a chrono deadline
-            auto timelimit = std::chrono::milliseconds(7450);
-            // 5) call to alpha-beta
+            // call to alpha-beta
+            auto timelimit = std::chrono::milliseconds(6000);
             float alpha = -numeric_limits<float>::infinity();
             float beta = numeric_limits<float>::infinity();
             Color player = board.sideToMove();
