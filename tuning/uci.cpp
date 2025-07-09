@@ -276,7 +276,7 @@ public:
 
         // Iterative deepen from 1 to maxDepth
         for (int d = 1; d <= maxDepth; ++d) {
-            auto [candMove, candScore] = alphaBetaHelper(board, alpha, beta, d, player, wheights, (d>7));
+            auto [candMove, candScore] = alphaBetaHelper(board, alpha, beta, d, player, wheights, (d>8));
             if (isinf(candScore)) {
                 if (player==Color::WHITE && candScore>0) return {candMove, 0.0f };
                 if (player==Color::BLACK && candScore<0) return {candMove, 0.0f };
