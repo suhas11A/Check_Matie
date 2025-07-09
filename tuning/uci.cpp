@@ -35,6 +35,7 @@ public:
 
     // Use board hash as key to caching
     unordered_map<uint64_t, CacheEntry> move_cache;
+    unordered_map<uint64_t, float> eval_cache;
 
     // Ierative Deepening
     time_point<high_resolution_clock> deadline;
@@ -119,6 +120,10 @@ public:
     }
 
     float utility(Board& board, float wheights[]) {
+        uint64_t board_hash = board.hash();
+        if (eval_cache.find(board_hash) != eval_cache.end()) {
+            return eval_cache[board_hash];
+        }
         Movelist moves;
         Movelist fake_moves;
         movegen::legalmoves(moves, board);
@@ -178,6 +183,7 @@ public:
         int th_b = count_threats(board, Color::BLACK);
         utility -= lambda * float(th_w - th_b);
         // Return utility
+        eval_cache[board_hash] = utility;
         return utility;
     }
 
