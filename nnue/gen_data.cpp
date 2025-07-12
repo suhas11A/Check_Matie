@@ -10,6 +10,7 @@
 #include <limits>
 #include <chrono>
 #include <iomanip>
+#include <random>
 using namespace chess;
 using namespace std;
 using namespace std::chrono;
@@ -40,6 +41,7 @@ public:
     time_point<high_resolution_clock> deadline;
     bool stopped = false;
     Move lastCompleteMove;
+    float lastCompleteScore;
     int lastCompleteDepth;
 
     float piece_value(PieceType p) {
@@ -272,21 +274,23 @@ public:
         deadline = high_resolution_clock::now() + timeLimit;
         stopped = false;
         lastCompleteDepth = 0;
+        lastCompleteScore = 0;
         lastCompleteMove = Move();
 
         // Iterative deepen from 1 to maxDepth
         for (int d = 1; d <= maxDepth; ++d) {
             auto [candMove, candScore] = alphaBetaHelper(board, alpha, beta, d, player, wheights, (d>7));
             if (isinf(candScore)) {
-                if (player==Color::WHITE && candScore>0) return {candMove, 0.0f };
-                if (player==Color::BLACK && candScore<0) return {candMove, 0.0f };
+                if (player==Color::WHITE && candScore>0) return {candMove, candScore };
+                if (player==Color::BLACK && candScore<0) return {candMove, candScore };
             }
             if (stopped) break; 
-            lastCompleteMove  = candMove;
+            lastCompleteMove = candMove;
+            lastCompleteScore = candScore;
             lastCompleteDepth = d;
         }
 
-        return { lastCompleteMove, 0.0f };
+        return { lastCompleteMove, lastCompleteScore };
     }
 };
 
@@ -302,75 +306,52 @@ chess::Move parseUciMove(chess::Board& board, const std::string& moveStr) {
     return Move();
 }
 
-int main() {
-    Board board;
-    string line;
-    float weights[4] = WEIGHTS;
-    int maxdepth = 50;
-    MoveGen my_solver;
-
-    while (getline(cin, line)) {
-        istringstream iss(line);
-        string token;
-        iss >> token;
-
-        if (token == "uci") {
-            cout << "id name Matie\n";
-            cout << "id author Suhas\n";
-            cout << "uciok\n";
-        } else if (token == "isready") {
-            cout << "readyok\n";
-        } else if (token == "ucinewgame") {
-            board.setFen(constants::STARTPOS);
-            my_solver.move_cache.clear();
-        } else if (token == "position") {
-            string posType;
-            iss >> posType;
-
-            if (posType == "startpos") {
-                board.setFen(constants::STARTPOS);
-                string movesLabel;
-                iss >> movesLabel;
-                if (movesLabel == "moves") {
-                    string moveStr;
-                    while (iss >> moveStr) {
-                        Move m = parseUciMove(board, moveStr);
-                        if (m != Move()) board.makeMove(m);
-                    }
-                }
-            } else if (posType == "fen") {
-                string fen, temp;
-                vector<string> fen_parts;
-                int i = 0;
-                while (i < 6 && iss >> temp) {
-                    fen_parts.push_back(temp);
-                    i++;
-                }
-                string fen_full = "";
-                for (int j = 0; j < 6; j++) {
-                    fen_full += fen_parts[j];
-                    if (j < 5) fen_full += " ";
-                }
-                board.setFen(fen_full);
-            }
-        } else if (token == "go") {
-            // call to alpha-beta
-            auto timelimit = std::chrono::milliseconds(6000);
-            float alpha = -numeric_limits<float>::infinity();
-            float beta = numeric_limits<float>::infinity();
-            Color player = board.sideToMove();
-            Board copp = board;
-            auto best = my_solver.alphaBeta(copp, alpha, beta, maxdepth, player, weights, timelimit).first;
-
-            if (best != Move()) {
-                cout << "bestmove " << uci::moveToUci(best) << '\n';
-            } else {
-                cout << "bestmove 0000\n";
-            }
-        } else if (token == "quit") {
-            break;
-        }
+vector<Board> gen_random_positions(int N, int maxPly) {
+  vector<Board> out;
+  out.reserve(N);
+  auto seed = std::chrono::system_clock::now().time_since_epoch().count();
+  mt19937_64 rng{seed};
+  for(int i = 0; i < N; i++){
+    Board b;
+    b.setFen(constants::STARTPOS);
+    int ply = uniform_int_distribution<int>(0, maxPly)(rng);
+    for(int j = 0; j < ply; j++){
+      Movelist moves;
+      movegen::legalmoves(moves, b);
+      if (moves.empty()) break;
+      b.makeMove(moves[uniform_int_distribution<int>(0,moves.size()-1)(rng)]);
     }
+    out.push_back(b);
+  }
+  return out;
+}
+
+int main() {
+    
+    float weights[4] = WEIGHTS;
+    int maxdepth = 70;
+    auto timelimit = std::chrono::milliseconds(6000);
+    MoveGen my_solver;
+    float alpha = -numeric_limits<float>::infinity();
+    float beta = numeric_limits<float>::infinity();
+
+    ofstream fout{"training_data.csv", std::ios::out | std::ios::app };
+
+    auto trainingPos = gen_random_positions(10, 40);
+    int counter = 0;
+    for (auto& b : trainingPos) {
+        counter ++;
+        string fen = b.getFen();
+        Color player = b.sideToMove();
+        Board copp = b;
+        float score = my_solver.alphaBeta(copp, alpha, beta, maxdepth, player, weights, timelimit).second;
+        // if your engine returns mate scores, you may want to clamp them:
+        score = std::clamp(score, -10000.0f, +10000.0f);
+        fout << "\"" << fen << "\"," << score << "\n";
+        my_solver.move_cache.clear();
+        cout << counter << '\n';
+    }
+    fout.close();
 
     return 0;
 }
