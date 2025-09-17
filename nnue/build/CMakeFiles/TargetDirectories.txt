@@ -1,0 +1,3 @@
+/home/suhas/club_projs/Check_Matie/nnue/build/CMakeFiles/my_engine.dir
+/home/suhas/club_projs/Check_Matie/nnue/build/CMakeFiles/edit_cache.dir
+/home/suhas/club_projs/Check_Matie/nnue/build/CMakeFiles/rebuild_cache.dir
