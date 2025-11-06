@@ -1,5 +1,5 @@
-#include "/home/suhas/libraries/chess-library/include/chess.hpp"
-#include "/home/suhas/libraries/json/single_include/nlohmann/json.hpp"
+#include "/home/suhas/wslfiles/libraries/chess-library/include/chess.hpp"
+#include "/home/suhas/wslfiles/libraries/json/single_include/nlohmann/json.hpp"
 #include <fstream>
 #include <iostream>
 #include <string>
